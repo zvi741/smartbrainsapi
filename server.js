@@ -1,13 +1,23 @@
 const express = require('express')
 const bcrypt = require('bcrypt-nodejs')
+const cors = require('cors')
+
 const app = express()
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json())
+app.use(cors())
 
 const database = {
   users: [
-
+    {
+      id: '1',
+      name: 'John1',
+      email: '1',
+      password: '1',
+      entries: 0,
+      joined: new Date()
+    },
     {
       id: '123',
       name: 'John',
@@ -42,16 +52,15 @@ app.get('/', (req, res) => {
 // SingIn
 app.post('/signin', (req, res) => {
 
-  bcrypt.compare("cookies", '$2a$10$qHTry1ad8oi22vGPIiycVe3GXXsDtdolMJJko59P/Hf9a.HMdkH5K', function (err, res) {
-    console.log('first guess', res)
-  });
-  bcrypt.compare("veggies", '$2a$10$qHTry1ad8oi22vGPIiycVe3GXXsDtdolMJJko59P/Hf9a.HMdkH5K', function (err, res) {
-    console.log('second guess', res)
-  });
-
+  // bcrypt.compare("cookies", '$2a$10$qHTry1ad8oi22vGPIiycVe3GXXsDtdolMJJko59P/Hf9a.HMdkH5K', function (err, res) {
+  //   console.log('first guess', res)
+  // });
+  // bcrypt.compare("veggies", '$2a$10$qHTry1ad8oi22vGPIiycVe3GXXsDtdolMJJko59P/Hf9a.HMdkH5K', function (err, res) {
+  //   console.log('second guess', res)
+  // });
   if (req.body.email === database.users[0].email &&
     req.body.password === database.users[0].password) {
-    res.json('success')
+    res.json(database.users[0])
   } else {
     res.status(400).json('error logging in')
   }
